@@ -7,9 +7,6 @@ public class Hand {
     private static List<Card> cards;
 
     public Hand(List<Card> cards) {
-        if (cards.size() != 5) {
-            throw new IllegalArgumentException("A hand must consist of exactly 5 cards.");
-        }
         this.cards = new ArrayList<>(cards);
         Collections.sort(this.cards);
     }
