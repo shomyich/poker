@@ -15,7 +15,7 @@ public class PokerDeck {
                 cards.add(new Card(suit, rank));
             }
         }
-        cards.add(new Card(3, 14));
+
     }
 
     public static PokerDeck getInstance(int deckSize) {

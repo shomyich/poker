@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 public class WinnerDeterminer {
@@ -8,28 +7,19 @@ public class WinnerDeterminer {
         List<Card> hand2 = player2.getHand();
         List<Card> board = table.getCards();
 
-        // **Создание списка всех карт, доступных игрокам**
-
-        List<Card> allCards1 = new ArrayList<>();
-        List<Card> allCards2 = new ArrayList<>();
-        allCards1.addAll(hand1);
-        allCards2.addAll(hand2);
-        allCards1.addAll(board);
-        allCards2.addAll(board);
-
-        // **Определение комбинаций игроков**
-
         Hand player1Hand = Hand.getBestHand(hand1, board);
-        Hand player2Hand = Hand.getBestHand(hand2, board);
 
-        // **Определение победителя**
+        System.out.println(player1Hand.getHandType());
+
+        Hand player2Hand = Hand.getBestHand(hand2, board);
+        System.out.println(player2Hand.getHandType());
 
         if (player1Hand.compareTo(player2Hand) > 0) {
-            return 0; // Победил игрок 1
+            return 0; // Player 1 wins
         } else if (player1Hand.compareTo(player2Hand) < 0) {
-            return 1; // Победил игрок 2
+            return 1; // Player 2 wins
         } else {
-            return 2; // Ничья
+            return 2; // It's a tie
         }
     }
 }

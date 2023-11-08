@@ -1,119 +1,196 @@
-    import java.util.Collections;
-    import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-    public class Hand {
+public class Hand {
 
-        private List<Card> cards;
+    private static List<Card> cards;
 
-        public Hand(HandType handType, List<Card> cards) {
-            this.cards = cards;
+    public Hand(List<Card> cards) {
+        if (cards.size() != 5) {
+            throw new IllegalArgumentException("A hand must consist of exactly 5 cards.");
+        }
+        this.cards = new ArrayList<>(cards);
+        Collections.sort(this.cards);
+    }
+
+    public HandType getHandType() {
+        if (isRoyalFlush()) {
+            return HandType.ROYAL_FLUSH;
+        }
+        if (isStraightFlush()) {
+            return HandType.STRAIGHT_FLUSH;
+        }
+        if (isFourOfAKind()) {
+            return HandType.FOUR_OF_A_KIND;
+        }
+        if (isFullHouse()) {
+            return HandType.FULL_HOUSE;
+        }
+        if (isFlush()) {
+            return HandType.FLUSH;
+        }
+        if (isStraight()) {
+            return HandType.STRAIGHT;
+        }
+        if (isThreeOfAKind()) {
+            return HandType.THREE_OF_A_KIND;
+        }
+        if (isTwoPairs()) {
+            return HandType.TWO_PAIRS;
+        }
+        if (isPair()) {
+            return HandType.PAIR;
+        }
+        return HandType.HIGH_CARD;
+    }
+
+    public int compareTo(Hand other) {
+        return this.getHandType().compareTo(other.getHandType());
+    }
+
+    public static Hand getBestHand(List<Card> board, List<Card> cards) {
+        if (board.size() + cards.size() != 7) {
+            throw new IllegalArgumentException("A hand must consist of exactly 7 cards.");
         }
 
-        public static Hand getBestHand(List<Card> hand, List<Card> board) {
-            Hand bestHand = null;
-            for (Card card : board) {
-                hand.add(card);
-            }
-            Collections.sort(hand);
+        List<Card> allCards = new ArrayList<>(board);
+        allCards.addAll(cards);
+        Collections.sort(allCards);
 
-            for (HandType handType : HandType.values()) {
-                if (handType.isApplicable(hand)) {
-                    if (bestHand == null || handType.compareTo(bestHand.getType()) > 0) {
-                        bestHand = new Hand(handType, hand);
+        Hand bestHand = null;
+
+        // Перебор всех возможных комбинаций из 5 карт
+        for (int i = 0; i < 3; i++) {
+            for (int j = i + 1; j < 4; j++) {
+                for (int k = j + 1; k < 5; k++) {
+                    for (int l = k + 1; l < 6; l++) {
+                        for (int m = l + 1; m < 7; m++) {
+                            List<Card> currentCombination = new ArrayList<>();
+                            currentCombination.add(allCards.get(i));
+                            currentCombination.add(allCards.get(j));
+                            currentCombination.add(allCards.get(k));
+                            currentCombination.add(allCards.get(l));
+                            currentCombination.add(allCards.get(m));
+
+                            Hand currentHand = new Hand(currentCombination);
+                            if (bestHand == null || currentHand.compareTo(bestHand) > 0) {
+                                bestHand = currentHand;
+                            }
+                        }
                     }
                 }
             }
-
-            return bestHand;
         }
 
-        public HandType getType() {
-            return getHandType(cards);
-        }
+        return bestHand;
+    }
 
-        public int compareTo(Hand hand) {
-            return getType().compareTo(hand.getType());
-        }
+    private static boolean isRoyalFlush() {
+        return isStraightFlush() && cards.get(4).getRank() == 14; // Ace
+    }
 
-        private static HandType getHandType(List<Card> cards) {
-            HandType type;
+    private static boolean isStraightFlush() {
+        return isFlush() && isStraight();
+    }
 
-            // Check for Royal Flush
-            if (isRoyalFlush(cards)) {
-                type = HandType.ROYAL_FLUSH;
-            } else if (isStraightFlush(cards)) {
-                type = HandType.STRAIGHT_FLUSH;
-            } else if (isFourOfAKind(cards)) {
-                type = HandType.FOUR_OF_A_KIND;
-            } else if (isFullHouse(cards)) {
-                type = HandType.FULL_HOUSE;
-            } else if (isFlush(cards)) {
-                type = HandType.FLUSH;
-            } else if (isStraight(cards)) {
-                type = HandType.STRAIGHT;
-            } else if (isThreeOfAKind(cards)) {
-                type = HandType.THREE_OF_A_KIND;
-            } else if (isTwoPairs(cards)) {
-                type = HandType.TWO_PAIRS;
-            } else if (isPair(cards)) {
-                type = HandType.PAIR;
-            } else {
-                type = HandType.HIGH_CARD;
+    private static boolean isFourOfAKind() {
+        for (int i = 0; i < 2; i++) {
+            if (cards.get(i).getRank() == cards.get(i + 1).getRank() &&
+                    cards.get(i).getRank() == cards.get(i + 2).getRank() &&
+                    cards.get(i).getRank() == cards.get(i + 3).getRank()) {
+                return true;
             }
-
-            return type;
         }
+        return false;
+    }
 
-        private static boolean isRoyalFlush(List<Card> cards) {
-            return isFlush(cards) && isStraight(cards) && cards.get(4).getRank() == 14; // Ace
+    private static boolean isFullHouse() {
+        if (cards.get(0).getRank() == cards.get(1).getRank() &&
+                cards.get(2).getRank() == cards.get(3).getRank() &&
+                cards.get(3).getRank() == cards.get(4).getRank()) {
+            return true;
         }
-
-        private static boolean isStraightFlush(List<Card> cards) {
-            return isFlush(cards) && isStraight(cards);
+        if (cards.get(0).getRank() == cards.get(1).getRank() &&
+                cards.get(1).getRank() == cards.get(2).getRank() &&
+                cards.get(3).getRank() == cards.get(4).getRank()) {
+            return true;
         }
+        return false;
+    }
 
-        private static boolean isFourOfAKind(List<Card> cards) {
-            return countCards(cards, 4) > 0;
-        }
+    private static boolean isFlush() {
+        return cards.get(0).getSuit() == cards.get(1).getSuit() &&
+                cards.get(0).getSuit() == cards.get(2).getSuit() &&
+                cards.get(0).getSuit() == cards.get(3).getSuit() &&
+                cards.get(0).getSuit() == cards.get(4).getSuit();
+    }
 
-        private static boolean isFullHouse(List<Card> cards) {
-            return (countCards(cards, 3) > 0) && (countCards(cards, 2) > 0);
-        }
-
-        private static boolean isFlush(List<Card> cards) {
-            return cards.stream().map(Card::getSuit).distinct().count() == 1;
-        }
-
-        private static boolean isStraight(List<Card> cards) {
-            for (int i = 0; i < cards.size() - 4; i++) {
-                if (cards.get(i).getRank() + 4 == cards.get(i + 1).getRank()) {
-                    return true;
-                }
+    private static boolean isStraight() {
+        for (int i = 0; i < 4; i++) {
+            if (cards.get(i).getRank() - 1 != cards.get(i + 1).getRank()) {
+                return false;
             }
-
-            return false;
         }
+        return true;
+    }
 
-        private static boolean isThreeOfAKind(List<Card> cards) {
-            return countCards(cards, 3) == 1;
-        }
-
-        private static boolean isTwoPairs(List<Card> cards) {
-            return (countCards(cards, 2) == 2) && (countCards(cards, 1) == 0);
-        }
-
-        private static boolean isPair(List<Card> cards) {
-            return countCards(cards, 2) > 0;
-        }
-
-        private static int countCards(List<Card> cards, int rank) {
-            int count = 0;
-            for (Card card : cards) {
-                if (card.getRank() == rank) {
-                    count++;
-                }
+    private static boolean isThreeOfAKind() {
+        for (int i = 0; i < 3; i++) {
+            if (cards.get(i).getRank() == cards.get(i + 1).getRank() &&
+                    cards.get(i).getRank() == cards.get(i + 2).getRank()) {
+                return true;
             }
+        }
+        return false;
+    }
 
-            return count;
+    private static boolean isTwoPairs() {
+        int pairCount = 0;
+        for (int i = 0; i < 4; i++) {
+            if (cards.get(i).getRank() == cards.get(i + 1).getRank()) {
+                pairCount++;
+                i++; // Skip the next card in the pair
+            }
+        }
+        return pairCount == 2;
+    }
+
+    private static boolean isPair() {
+        for (int i = 0; i < 4; i++) {
+            if (cards.get(i).getRank() == cards.get(i + 1).getRank()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    private static boolean isApplicable(List<Card> cards, HandType handType) {
+        switch (handType) {
+            case ROYAL_FLUSH:
+                return isRoyalFlush();
+            case STRAIGHT_FLUSH:
+                return isStraightFlush();
+            case FOUR_OF_A_KIND:
+                return isFourOfAKind();
+            case FULL_HOUSE:
+                return isFullHouse();
+            case FLUSH:
+                return isFlush();
+            case STRAIGHT:
+                return isStraight();
+            case THREE_OF_A_KIND:
+                return isThreeOfAKind();
+            case TWO_PAIRS:
+                return isTwoPairs();
+            case PAIR:
+                return isPair();
+            case HIGH_CARD:
+                return true;
+            default:
+                throw new IllegalStateException("Unexpected value: " + handType);
         }
     }
+}
