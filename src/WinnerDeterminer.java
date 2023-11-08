@@ -8,8 +8,8 @@ public class WinnerDeterminer {
         List<Card> board = table.getCards();
 
         Hand player1Hand = Hand.getBestHand(hand1, board);
-
         System.out.println(player1Hand.getHandType());
+
 
         Hand player2Hand = Hand.getBestHand(hand2, board);
         System.out.println(player2Hand.getHandType());
