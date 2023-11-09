@@ -6,11 +6,13 @@ public class WinnerDeterminer {
         List<Card> hand1 = player1.getHand();
         List<Card> hand2 = player2.getHand();
         List<Card> board = table.getCards();
+        System.out.println("Hand of Sasha: " + player1.getHand());
         hand1.addAll(board);
 
         Hand player1Hand = Hand.getBestHand(hand1);
 
         System.out.println(player1Hand.getHandType());
+        System.out.println("Hand of Kostya: " + player2.getHand());
         hand2.addAll(board);
 
         Hand player2Hand = Hand.getBestHand(hand2);
