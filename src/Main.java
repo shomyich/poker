@@ -1,3 +1,6 @@
+;
+import poker.Game;
+import WordGuessGame.WordGuessGame;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,7 +25,11 @@ public class Main {
                     Game game = new Game();
                     game.game();
                 case 2:
-                    System.out.println("NANANNANAN");
+                    WordGuessGame game1 = new WordGuessGame();
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("Input word");
+                    String str = scanner.nextLine();
+                    WordGuessGame.main(str);
                 case 3:
                     break;
             }

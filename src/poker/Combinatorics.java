@@ -1,3 +1,7 @@
+package poker;
+
+import poker.Card;
+
 import java.util.ArrayList;
 import java.util.List;
 

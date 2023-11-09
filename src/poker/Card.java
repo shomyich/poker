@@ -1,3 +1,5 @@
+package poker;
+
 public class Card implements Comparable<Card> {
 
     private final int suit;
