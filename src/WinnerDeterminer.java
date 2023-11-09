@@ -17,7 +17,7 @@ public class WinnerDeterminer {
         System.out.println(player2Hand.getHandType());
 
 
-        System.out.println(player1Hand.getHandType());
+
         if (player1Hand.compareTo(player2Hand) > 0) {
             return 0; // Player 1 wins
         } else if (player1Hand.compareTo(player2Hand) < 0) {

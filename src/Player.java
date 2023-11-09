@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player implements Observer {
+    // Existing code
+
 
     private final String name;
     private final List<Card> hand;
@@ -52,6 +54,10 @@ public class Player {
     }
 
     @Override
+    public void update() {
+        System.out.println("New cards on the Table! ");
+
+    }
     public String toString() {
         return name + " (" + hand.size() + " cards, Money: " + betMoney + ")";
     }

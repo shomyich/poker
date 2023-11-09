@@ -4,13 +4,24 @@ import java.util.Scanner;
 public class Game {
 
     public static void game() {
-        PokerDeck deck = PokerDeck.getInstance(36);
+        CardDeckFactory cardDeckFactory;
+        int deckSize = determineDeckSize(); // Метод, определяющий размер колоды
+
+        if (deckSize == 36) {
+            cardDeckFactory = new PokerDeck36Factory();
+        } else {
+            cardDeckFactory = new PokerDeck52Factory();
+        }
+
+        PokerDeck deck = cardDeckFactory.createCardDeck();
 
         List<Card> cards = deck.getCards();
         deck.shuffle();
 
         Player Sasha = new Player("Sasha");
         Player Kostya = new Player("Kostya");
+        Table.addObserver(Sasha);
+        Table.addObserver(Kostya);
 
 
             for (int i = 0; i < 2; i++) {
@@ -126,5 +137,14 @@ public class Game {
                 }
 //            }
        }
+    private static int determineDeckSize() {
+        System.out.println("You can choose 36 or 52 cards in your deck?");
+        Scanner scanner = new Scanner(System.in);
+        int x = scanner.nextInt();
+        if (x==36){
+            return 36;
+        }
+        return 52;
+    }
 
 }

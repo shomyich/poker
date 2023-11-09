@@ -15,9 +15,9 @@ public class PokerDeck {
                 cards.add(new Card(suit, rank));
             }
         }
-
     }
 
+    // Метод для получения единственного экземпляра PokerDeck
     public static PokerDeck getInstance(int deckSize) {
         if (instance == null) {
             instance = new PokerDeck(deckSize);
@@ -32,9 +32,8 @@ public class PokerDeck {
     public Card drawCard() {
         return cards.remove(cards.size() - 1);
     }
+
     public void shuffle() {
         Collections.shuffle(cards);
     }
 }
-
-
