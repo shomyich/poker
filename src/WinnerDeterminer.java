@@ -6,14 +6,18 @@ public class WinnerDeterminer {
         List<Card> hand1 = player1.getHand();
         List<Card> hand2 = player2.getHand();
         List<Card> board = table.getCards();
+        hand1.addAll(board);
 
-        Hand player1Hand = Hand.getBestHand(hand1, board);
+        Hand player1Hand = Hand.getBestHand(hand1);
+
         System.out.println(player1Hand.getHandType());
+        hand2.addAll(board);
 
-
-        Hand player2Hand = Hand.getBestHand(hand2, board);
+        Hand player2Hand = Hand.getBestHand(hand2);
         System.out.println(player2Hand.getHandType());
 
+
+        System.out.println(player1Hand.getHandType());
         if (player1Hand.compareTo(player2Hand) > 0) {
             return 0; // Player 1 wins
         } else if (player1Hand.compareTo(player2Hand) < 0) {

@@ -15,34 +15,21 @@ public class Hand {
         combination.add(card);
         Collections.sort(combination);
     }
-    public static Hand getBestHand(List<Card> hand1, List<Card> board) {
-        List<Card> cards = new ArrayList<>(board);
-        cards.addAll(hand1);
-        Hand bestHand = new Hand(new ArrayList<>(cards.subList(0, 5))); // Начинаем с первых 5 карт
+    public static Hand getBestHand(List<Card> allCards) {
+        List<List<Card>> combinations = Combinatorics.generateCombinations(allCards, 7);
 
-        for (int i = 0; i < cards.size() - 4; i++) {
-            for (int j = i + 1; j < cards.size() - 3; j++) {
-                for (int k = j + 1; k < cards.size() - 2; k++) {
-                    for (int m = k + 1; m < cards.size() - 1; m++) {
-                        for (int n = m + 1; n < cards.size(); n++) {
-                            Hand currentHand = new Hand(new ArrayList<>(cards.subList(0, 5)));
-                            currentHand.add(cards.get(i));
-                            currentHand.add(cards.get(j));
-                            currentHand.add(cards.get(k));
-                            currentHand.add(cards.get(m));
-                            currentHand.add(cards.get(n));
+        Hand bestHand = new Hand(combinations.get(0));
 
-                            if (currentHand.compareTo(bestHand) > 0) {
-                                bestHand = currentHand;
-                            }
-                        }
-                    }
-                }
+        for (List<Card> combination : combinations) {
+            Hand currentHand = new Hand(combination);
+            if (currentHand.compareTo(bestHand) > 0) {
+                bestHand = currentHand;
             }
         }
-        System.out.println(bestHand.cards);
+        // System.out.println(bestHand.cards);
         return bestHand;
     }
+
 
 
     public HandType getHandType() {
@@ -177,26 +164,12 @@ public class Hand {
     }
 
     public int compareTo(Hand other) {
-        HandType thisHandType = this.getHandType();
-        HandType otherHandType = other.getHandType();
-
-        if (thisHandType != otherHandType) {
-            return thisHandType.compareTo(otherHandType);
-        }
-
-        List<Card> thisCards = new ArrayList<>(this.combination);
-        List<Card> otherCards = new ArrayList<>(other.combination);
-
-        Collections.sort(thisCards);
-        Collections.sort(otherCards);
-
         for (int i = 4; i >= 0; i--) {
-            int rankComparison = thisCards.get(i).getRank() - otherCards.get(i).getRank();
+            int rankComparison = this.cards.get(i).getRank() - other.cards.get(i).getRank();
             if (rankComparison != 0) {
                 return rankComparison;
             }
         }
-
         return 0;
     }
 }
