@@ -29,64 +29,30 @@ public class Card implements Comparable<Card> {
 
     @Override
     public String toString() {
-        String suitStr = "";
-        switch (suit) {
-            case 0:
-                suitStr = "\u2661";
-                break;
-            case 1:
-                suitStr = "\u2662";
-                break;
-            case 2:
-                suitStr = "\u2664";
-                break;
-            case 3:
-                suitStr = "\u2663";
-                break;
-        }
+        String suitStr = switch (suit) {
+            case 0 -> "♡";
+            case 1 -> "♢";
+            case 2 -> "♤";
+            case 3 -> "♣";
+            default -> "";
+        };
 
-        String rankStr = "";
-        switch (rank) {
-            case 2:
-                rankStr = "A";
-                break;
-            case 3:
-                rankStr = "K";
-                break;
-            case 4:
-                rankStr = "Q";
-                break;
-            case 5:
-                rankStr = "J";
-                break;
-            case 6:
-                rankStr = "10";
-                break;
-            case 7:
-                rankStr = "9";
-                break;
-            case 8:
-                rankStr = "8";
-                break;
-            case 9:
-                rankStr = "7";
-                break;
-            case 10:
-                rankStr = "6";
-                break;
-            case 11:
-                rankStr = "5";
-                break;
-            case 12:
-                rankStr = "4";
-                break;
-            case 13:
-                rankStr = "3";
-                break;
-            case 14:
-                rankStr = "2";
-                break;
-        }
+        String rankStr = switch (rank) {
+            case 2 -> "A";
+            case 3 -> "K";
+            case 4 -> "Q";
+            case 5 -> "J";
+            case 6 -> "10";
+            case 7 -> "9";
+            case 8 -> "8";
+            case 9 -> "7";
+            case 10 -> "6";
+            case 11 -> "5";
+            case 12 -> "4";
+            case 13 -> "3";
+            case 14 -> "2";
+            default -> "";
+        };
 
         return suitStr + " " + rankStr;
     }

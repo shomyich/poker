@@ -1,8 +1,6 @@
 package poker;
-import poker.Card;
 
 import java.util.List;
-
 public class WinnerDeterminer {
 
     public static int determineWinner(Player player1, Player player2, Table table) {
@@ -20,7 +18,6 @@ public class WinnerDeterminer {
 
         Hand player2Hand = Hand.getBestHand(hand2);
         System.out.println(player2Hand.getHandType());
-
 
 
         if (player1Hand.compareTo(player2Hand) > 0) {

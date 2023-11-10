@@ -2,7 +2,7 @@ package WordGuessGame;
 
 
 class GuessCounterDecorator implements Guesser {
-    private Guesser guesser;
+    private final Guesser guesser;
     private int guessCount;
 
     public GuessCounterDecorator(Guesser guesser) {

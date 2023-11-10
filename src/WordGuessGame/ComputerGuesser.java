@@ -3,7 +3,7 @@ package WordGuessGame;
 import java.util.Random;
 
 class ComputerGuesser implements Guesser {
-    private String targetWord;
+    private final String targetWord;
     private String currentGuess;
 
     public ComputerGuesser(String targetWord) {

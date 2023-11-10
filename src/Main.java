@@ -1,7 +1,5 @@
-;
 import poker.Game;
 import WordGuessGame.WordGuessGame;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -12,21 +10,21 @@ public class Main {
 
         int x = 0;
         Scanner sc = new Scanner(System.in);
-        while (x!=3){
-            System.out.println("Please choose game: \n" +
-                    "1 - Poker\n" +
-                    "2 - NANANA\n" +
-                    "3 - exit from Game");
+        while (x != 3) {
+            System.out.println("""
+                    Please choose game:\s
+                    1 - Poker
+                    2 - Word Guesser
+                    3 - exit from Game""");
             System.out.println("/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*/*");
             x = sc.nextInt();
-            switch (x){
+            switch (x) {
 
                 case 1:
-                    Game game = new Game();
-                    game.game();
+
+                    Game.game();
                     break;
                 case 2:
-                    WordGuessGame game1 = new WordGuessGame();
                     Scanner scanner = new Scanner(System.in);
                     System.out.println("Input word");
                     String str = scanner.nextLine();
@@ -36,8 +34,6 @@ public class Main {
                     break;
             }
         }
-
-
 
 
     }

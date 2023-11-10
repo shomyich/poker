@@ -1,14 +1,11 @@
 package poker;
-import poker.Card;
-
-import poker.Combinatorics;
 
 import java.util.*;
 
 public class Hand {
 
-    private List<Card> cards;
-    private List<Card> combination;
+    private final List<Card> cards;
+    private final List<Card> combination;
 
     public Hand(List<Card> cards) {
         this.cards = new ArrayList<>(cards);
@@ -20,6 +17,7 @@ public class Hand {
         combination.add(card);
         Collections.sort(combination);
     }
+
     public static Hand getBestHand(List<Card> allCards) {
         List<List<Card>> combinations = Combinatorics.generateCombinations(allCards, 7);
 
@@ -34,7 +32,6 @@ public class Hand {
         // System.out.println(bestHand.cards);
         return bestHand;
     }
-
 
 
     public HandType getHandType() {

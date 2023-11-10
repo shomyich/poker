@@ -1,12 +1,11 @@
 package poker;
-import poker.Card;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
     private final List<Card> cards;
-    private static List<Observer> observers = new ArrayList<>();  // Initialize here
+    private static final List<Observer> observers = new ArrayList<>();  // Initialize here
 
     public Table() {
         this.cards = new ArrayList<>();

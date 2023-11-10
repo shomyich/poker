@@ -1,5 +1,4 @@
 package poker;
-import java.util.List;
 
 public enum HandType implements Comparable<HandType> {
 
@@ -14,16 +13,8 @@ public enum HandType implements Comparable<HandType> {
     PAIR(9),
     HIGH_CARD(10);
 
-    private final int rank;
-
     HandType(int rank) {
-        this.rank = rank;
+
     }
-
-
-
-
-
-
 
 }

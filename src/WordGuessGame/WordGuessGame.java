@@ -2,14 +2,13 @@ package WordGuessGame;
 
 public class WordGuessGame {
     public static void main(String args) {
-        String targetWord = args;
 
-        ComputerGuesser computer = new ComputerGuesser(targetWord);
+        ComputerGuesser computer = new ComputerGuesser(args);
 
         GuesserAdapter adapter = new GuesserAdapter(computer);
         GuessCounterDecorator decorator = new GuessCounterDecorator(adapter);
 
-        while (!decorator.getCurrentGuess().equals(targetWord)) {
+        while (!decorator.getCurrentGuess().equals(args)) {
             decorator.guess();
         }
 
