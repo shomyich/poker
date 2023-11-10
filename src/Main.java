@@ -24,12 +24,14 @@ public class Main {
                 case 1:
                     Game game = new Game();
                     game.game();
+                    break;
                 case 2:
                     WordGuessGame game1 = new WordGuessGame();
                     Scanner scanner = new Scanner(System.in);
                     System.out.println("Input word");
                     String str = scanner.nextLine();
                     WordGuessGame.main(str);
+                    break;
                 case 3:
                     break;
             }
